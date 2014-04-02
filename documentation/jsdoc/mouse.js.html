@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mouse.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: mouse.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/** TODO -> add a resize or app move event which re-calculates things,
+ *  not essential atm */
+/**
+ *  @class Mouse object, which is used to detect screen taps on an app as well as where the mouse position is when considering app's position & scale.
+ * @module  Mouse
+ * @exports Mouse
+ * @requires BAMF
+ */
+  define(['bamf/bamf', 'bamf/canvas2d'], function(BAMF, Canvas2D)
+{
+	/**
+	 *  @constructor
+	 *  @alias module:Mouse
+	 *  @class
+	 *  @param {Object} p parameters supplied to the constructor
+	 *  @param {BAMF} p.app BAMF app the mouse object is attached to
+	 *  */
+	var Mouse =  function(p)
+	{
+		var that = this;
+		this.app = p.app;
+
+		var appTW, appTH, appW, appH, appX, appY;
+
+		var refreshAppAttrs = function()
+		{   	appTW = p.app.virtualW,
+				appTH = p.app.virtualH,
+				appW  = parseInt(p.app.renderer.$canvas.offsetWidth),
+				appH  = parseInt(p.app.renderer.$canvas.offsetHeight),
+				appX  = p.app.renderer.$canvas.offsetLeft,
+				appY  = p.app.renderer.$canvas.offsetTop;
+
+		};
+		refreshAppAttrs();
+		window.addEventListener('resize', function(){refreshAppAttrs();});
+
+		//recalculate in case our app resizes
+		var zoomX = appTW / appW,
+			zoomY = appTH / appH;
+
+		var mouseX = 0, mouseY = 0;
+
+		var clickEvents = [];	//stores the mouse click events
+
+		/** an entity to be used in BAMF apps which attaches to scenes and
+		 *  then listens for clicks to be tested in object logic.
+		 *  It contains a member named 'clickEvent' which contains {appX, appY}
+		 *  variables if a user has clicked on the object
+		 *  @memberOf Mouse
+		 **/
+		var SceneClickListener = function()
+		{   /** stores the most recent click event in the form of {appX, appY} */
+			this.clickEvent = undefined;
+		};
+
+		SceneClickListener.prototype.logic = function()
+		{
+			this.clickEvent = undefined;
+			if(clickEvents.length > 0)
+			{   this.clickEvent = clickEvents.pop();  //get most recent click event
+				clickEvents.length = 0;				  //clear the array
+			};
+		};
+
+		// track mouse move events within the window to provide for getX() and getY()
+		window.document.addEventListener('mousemove', function(e)
+		{
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+		});
+
+		//track app's click events, passing the x coordinate relative to the app
+		this.app.renderer.$canvas.addEventListener('mousedown', function(e)
+		{
+			clickEvents.push({appX : (e.offsetX) / zoomX, appY : (e.offsetY) / zoomY});
+		});
+
+		var returnObj = {
+			/**
+			 * gets the current x position of the mouse in relation to the app and its scale
+			 * @memberOf module:Mouse
+			 * @method
+			 * @returns {number}
+			 */
+			getX : function(){ return (mouseX - appX) / zoomX; },
+			/**
+			 * gets the current y position of the mouse in relation to the app and its scale
+			 * @memberOf module:Mouse
+			 * @method
+			 * @returns {number}
+			 */
+			getY : function(){
+				return (mouseY - appY) / zoomY; },
+			SceneClickListener : SceneClickListener
+		};
+
+		return returnObj;
+	}
+	return Mouse;
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-Angle2D.html">Angle2D</a></li><li><a href="module-BAMF.html">BAMF</a></li><li><a href="module-BAMFAudio.html">BAMFAudio</a></li><li><a href="module-BufferLoader.html">BufferLoader</a></li><li><a href="module-Canvas2D.html">Canvas2D</a></li><li><a href="global.html#module:Collision">Collision</a></li><li><a href="module-Key.html">Key</a></li><li><a href="module-Mouse.html">Mouse</a></li></ul><h3>Classes</h3><ul><li><a href="module-BAMF.E.html">E</a></li><li><a href="module-BAMF.Input.html">Input</a></li><li><a href="module-BAMF.Level.html">Level</a></li><li><a href="module-BAMF.Renderer.html">Renderer</a></li><li><a href="module-BAMF.Scene.html">Scene</a></li><h3>Classes</h3><ul><h3>Classes</h3><ul><li><a href="module-Canvas2D.AnimE.html">AnimE</a></li><li><a href="module-Canvas2D.ImgE.html">ImgE</a></li><li><a href="module-Canvas2D.TxtE.html">TxtE</a></li><li><a href="a138fe9e6f.html">Anim</a></li><li><a href="module-Canvas3D.html">module:Canvas3D</a></li><h3>Classes</h3><ul><h3>Classes</h3><ul></ul><h3>Global</h3><ul></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.1.0</a> on Thu Dec 19 2013 11:02:54 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+</body>
+</html>

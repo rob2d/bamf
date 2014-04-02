@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BAMF Scene testing</title>
+	<style>
+		*
+		{
+			margin: 0;
+			padding: 0;
+		}
+		html, body
+		{
+			background: #FFFFFF;
+			text-align: center;
+			height:     100%;
+		}
+		.imm_canvas
+		{
+			width: 480px;
+			height: 480px;
+			border: 1px solid #0000FF;
+			background : #000000;
+			border-radius : 0.25em 0.25em;
+			margin-top: 8px;
+		}
+	</style>
+</head>
+<body>
+<p id='title'>Testing Scenes</p>
+<canvas id='imm_canvas_1' class='imm_canvas'>Loading</canvas>
+</body>
+<script data-main="../js/scene_test" src="../js/require.js"></script>
+</html>

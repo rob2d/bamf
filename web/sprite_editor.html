@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<html>
+<head>
+	<title>Sprite Editor</title>
+	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="../css/pure-min.css"/>
+	<link rel="stylesheet" href="../css/edit.css"/>
+</head>
+<body class="yui3-skin-sam"><!-- include YUI skin class -->
+	<div id="main_content" class="pure-g">
+		<div id='left_menu' class="pure-u-1-5">
+			<div id='anim_listing'>
+			<form class="pure-form pure-form-aligned">
+				<legend>
+					Animations
+				</legend>
+				<fieldset>
+					<label for="anim_list">Select Anim</label>
+					<select id="anim_list" class='pure-input' style='width: 140px;' disabled>
+					</select>
+				</fieldset>
+				<fieldset>
+					<button class='pure-button pure-button-primary' id='new_anim_btn' disabled> <i class="icon-plus"></i> New Anim </button>
+				</fieldset>
+			</form>
+			</div>
+			<div id='file_menu_box'>
+				<form class="pure-form" id='file_menu_form'>
+					<legend>File Menu</legend>
+					<fieldset>
+						<button class="pure-button pure-button-primary" id='file_save_btn' disabled>
+							<i class="icon-save"></i> Save
+						</button>
+
+							<!-- The actual LOAD button functionality is this input! -->
+							<div class='file-input-wrapper'>
+								<input type='file' id='load_file_input' accept='application/zip'/>
+								<button class="pure-button pure-button-primary" id='file_load_btn' disabled>
+									<i class="icon-folder-open"></i> Load
+								</button>
+							</div>
+					</fieldset>
+					<legend>Code Generation</legend>
+					<fieldset>
+						<label for='file_rel_dir'>Relative Img Path</label>
+						<input type='text' placeholder='image directory ' id='file_rel_dir'/>
+					</fieldset>
+					<fieldset>
+						<button class="pure-button pure-button-primary" id="generate_js_btn" disabled><i class="icon-code"></i> Generate .js</button>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+
+		<div id="center_area" class="pure-u-2-5">
+			<!-- IMAGE PREVIEWER -->
+			<form class='img_f_prev_zoom_ctrl pure-form'>
+				<label for='img_f_previewer_xo'>x offset:
+					<input type='number' style='width: 64px;' value=0 id='img_f_previewer_xo' disabled/>
+				</label>
+				<label for='img_f_previewer_yo'>y offset:
+					<input type='number' style='width: 64px;' value=0 id='img_f_previewer_yo'disabled/>
+				</label>
+			</form>
+			<div class="img_f_preview" id="img_f_previewer"></div>
+			<form class="pure-form">
+				<fieldset>
+					<input type='range' value=3 min= 1 max=5 step=1 id='img_f_previewer_r' style='width: 80px'/>
+					<button class="pure-button pure-button-primary pure-button-green" id='img_f_previewer_zo'>
+						<i class="icon-zoom-out"></i>
+					</button>
+					<button class="pure-button pure-button-primary pure-button-green" id='img_f_previewer_zi'>
+						<i class="icon-zoom-in"></i>
+					</button>
+					<button class="pure-button pure-button-primary pure-button-lime" id='img_f_previewer_step_b'>
+					<i class="icon-step-backward"></i> </button>
+					<button class="pure-button pure-button-primary pure-button-lime" id='play_anim_btn'>
+					<i class="icon-play"></i> </button>
+					<button class="pure-button pure-button-primary pure-button-lime" id='img_f_previewer_step_f'>
+					<i class="icon-step-forward"></i> </button>
+					<div id='img_f_previewer_ftxt' class='img_f_prev_ftxt'>0/1</div>
+				</fieldset>
+			</form>
+			<!-- /IMAGE PREVIEWER -->
+		</div>
+
+		<div id="right_menu" class="pure-u-1-3">
+			<!-- SHOW ANIM INFO -->
+			<div id="anim_settings_box">
+				<div class="pure-form pure-form-aligned" disabled>
+					<legend>Animation Settings</legend>
+					<fieldset style='text-align: left;' >
+						<div class='pure-control-group'>
+							<label for='frame_length_input'>frame length:</label>
+							<input type="range" id='frame_length_input' min=0.01 value=0.50 max=1.0 step=0.01 style='width: 100px' disabled/>
+							<div id='frame_length_val' style='display: inline-block;'>0.50</div>
+						</div>
+						<div class='pure-control-group'>
+							<label for='cycle_to_input'>cycle at:</label>
+							<input type='number' id='cycle_to_input' value=0 min=0 style="width: 80px" disabled/>
+						</div>
+						<div class='pure-control-group'>
+							<label for='use_indices_cb'>use index list</label>
+							<input type='checkbox' id='use_indices_cb'
+								   title='whether to use indices rather than just animate in the natural sequence of images' disabled/>
+						</div>
+						<div class='pure-control-group'>
+							<label for='use_indices_txt'>indices: </label>
+							<input type='text' id='use_indices_txt' style='width: 120px' value='0' placeholder="0, 1, 2, 1..."
+								   title='e.g. 0, 1, 2...' disabled/>
+						</div>
+					</fieldset>
+					<fieldset>
+						<button class="pure-button pure-button-primary pure-u-2-5" id="rename_anim_btn" disabled>
+							<i class="icon-pencil"></i> Rename 						</button>
+						<button class="pure-button pure-button-primary pure-u-2-5" id="delete_anim_btn" disabled>
+							<i class="icon-remove"></i> Delete 						</button>
+					</fieldset>
+				</div>
+			</div>
+			<!--/SHOW ANIM INFO -->
+			<!-- IMAGE UPLOAD LIST WIDGET -->
+			<div id='img_lister_1' class="img_lister">
+				<form class="pure-form" id="img_frames_form">
+				<legend>Image Frames</legend>
+				    <label for="img_uploader_1">Upload & Sort Images Below</label>
+					<input type="file" id="img_uploader_1" class="img_uploader pure-input" title="Upload images" accept="image/*" disabled/>
+					<!-- Image Frame Content -->
+				<div class="thumb_list  yui3-scrollview-loading"></div>
+				</form>
+			</div>
+			<!-- /IMAGE UPLOAD LIST WIDGET -->
+		</div>
+	</div>
+</div>
+<div id='input_prompt_box' class='prompter_box'>
+	<form class='pure-form yui3-widget-bd'>
+		<p id='prompt_message'>Some message...</p>
+		<fieldset>
+			<input type='text' id='prompter_input_response'/>
+		</fieldset>
+	</form>
+</div>
+<div id='loading_dialog'><p>Loading</p></div>
+<script src='../js/edit/loading_dialog.js'></script><!-- loading anim dialog script -->
+<script src="../js/yui/build/yui/yui-min.js"></script>
+<script src='../js/edit/dialogs.js'></script>
+<script src='../js/jszip/jszip.js'></script>
+<script src='../js/jszip/jszip-inflate.js'></script>
+<script src='../js/jszip/jszip-deflate.js'></script>
+<script src='../js/jszip/jszip-load.js'></script>
+<script src='../js/edit/generate_spr_js.js'></script>
+<script src='../js/edit/spr_edit_widgets.js'></script>
+<script src='../js/edit/spr_edit.js'></script>
+</body>
+</html>

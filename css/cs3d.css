@@ -1,0 +1,90 @@
+*
+{
+	margin: 0;
+	padding: 0;
+	font-family: 'Bitstream Vera Sans Roman';
+	font-size: 14px;
+	color: #FFFFFF;
+}
+html, body
+{
+	background: #FFFFFF url('../img/galaxy_bg.jpg');
+	background-size: auto 100%;
+	background-attachment:fixed;
+	text-align: center;
+	height:     100%;
+	overflow-y: hidden;
+}
+.bamf_canvas
+{
+	width: 480px;
+	height: 480px;
+	background : #000000;
+	border-radius : 0.25em 0.25em;
+	margin: 0 auto;
+}
+
+#score_hud
+{
+	position: absolute;
+	left: 12px;
+	top : 12px;
+}
+
+#lives_hud
+{
+	position: absolute;
+	left:	  12px;
+	top:      24px;
+}
+
+#bombs_hud
+{
+	position: absolute;
+	left:	  12px;
+	top:      36px;
+}
+
+#level_hud
+{
+	position: absolute;
+	bottom:   12px;
+	right:    12px;
+}
+
+#bamf_wrapper
+{
+	position: relative;
+	border: 2px solid #0000FF;
+	border-radius : 0.25em 0.25em;
+	width: 480px;
+	height: 480px;
+	margin: 0 auto;
+	margin-top: 8px;
+}
+
+#instructions
+{
+	position: fixed;
+	width:	  300px;
+	height:   64px;
+	background: rgba(0, 0, 0, 0.75);
+	z-index: 100;
+	bottom:   0px;
+	right:    0px;
+	border:   solid 2px rgb(0, 0, 200);
+	text-align: left;
+	padding-left: 8px;
+	padding-top:  8px;
+	color:		 rgb(50, 50, 255);
+	border-radius: 5px;
+	margin-bottom: 8px;
+	margin-right: 8px;
+}
+
+#title
+{
+	font-size: 18px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
